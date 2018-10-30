@@ -11,16 +11,81 @@ namespace twozerofoureight
         protected int boardSize; // default is 4
         protected int[,] board;
         protected Random rand;
+        protected int score;
+        protected int checkColumn = 0;
+        protected int checkRow = 0;
 
         public TwoZeroFourEightModel() : this(4)
         {
             // default board size is 4 
         }
 
+        public string GetScore()
+        {
+            return score.ToString();
+        }
+
         public int[,] GetBoard()
         {
             return board;
         }
+
+        public bool Checkfull()
+        {
+            int count = 0;
+            foreach(int i in board)
+            {
+                if(i != 0)
+                {
+                    count++;
+                }
+            }
+            if(count == 16)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool CheckOver()
+        {
+            checkRow = 0;
+            checkColumn = 0;
+            
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (board[j + 1, i] == board[j, i])
+                    {
+                        checkColumn++;
+                    }
+                }
+            }
+            for (int i = 0; i < boardSize; i++)
+            {
+                for (int j = 0; j < boardSize - 1; j++)
+                {
+                    if (board[i, j + 1] == board[i, j])
+                    {
+                        checkRow++;
+                    }
+                }
+            }
+            if(checkRow == 0 && checkColumn == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
+        
 
         public TwoZeroFourEightModel(int size)
         {
@@ -46,9 +111,16 @@ namespace twozerofoureight
                 if (board[x, y] == 0)
                 {
                     board[x, y] = 2;
+
+                    break;
+                }
+                else
+                {
                     break;
                 }
             }
+            
+
             return input;
         }
 
@@ -82,6 +154,7 @@ namespace twozerofoureight
                     if (j > 0 && buffer[j] != 0 && buffer[j] == buffer[j - 1])
                     {
                         buffer[j - 1] *= 2;
+                        score += buffer[j - 1];
                         buffer[j] = 0;
                     }
                 }
@@ -134,6 +207,7 @@ namespace twozerofoureight
                     if (j > 0 && buffer[j] != 0 && buffer[j] == buffer[j - 1])
                     {
                         buffer[j - 1] *= 2;
+                        score += buffer[j - 1];
                         buffer[j] = 0;
                     }
                 }
@@ -188,6 +262,7 @@ namespace twozerofoureight
                     if (j > 0 && buffer[j] != 0 && buffer[j] == buffer[j - 1])
                     {
                         buffer[j - 1] *= 2;
+                        score += buffer[j - 1];
                         buffer[j] = 0;
                     }
                 }
@@ -239,6 +314,7 @@ namespace twozerofoureight
                     if (j > 0 && buffer[j] != 0 && buffer[j] == buffer[j - 1])
                     {
                         buffer[j - 1] *= 2;
+                        score += buffer[j - 1];
                         buffer[j] = 0;
                     }
                 }

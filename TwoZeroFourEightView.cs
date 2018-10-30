@@ -14,7 +14,7 @@ namespace twozerofoureight
     {
         Model model;
         Controller controller;
-       
+
         public TwoZeroFourEightView()
         {
             InitializeComponent();
@@ -23,6 +23,22 @@ namespace twozerofoureight
             controller = new TwoZeroFourEightController();
             controller.AddModel(model);
             controller.ActionPerformed(TwoZeroFourEightController.LEFT);
+            
+        }
+
+        public bool GameOver(Model m)
+        {
+            return ((TwoZeroFourEightModel)m).CheckOver();
+        }
+
+        public bool isFull(Model m)
+        {
+            return ((TwoZeroFourEightModel)m).Checkfull();
+        }
+
+        public string showScore(Model m)
+        {
+            return ((TwoZeroFourEightModel)m).GetScore();
         }
 
         public void Notify(Model m)
@@ -32,6 +48,15 @@ namespace twozerofoureight
 
         private void UpdateTile(Label l, int i)
         {
+            scoreDisplay.Text = showScore(model);
+            if (GameOver(model) && isFull(model))
+            {
+                label2.Text = "GAME OVER";
+            }
+            else
+            {
+                label2.Text = "2048";
+            }
             if (i != 0)
             {
                 l.Text = Convert.ToString(i);
@@ -44,16 +69,37 @@ namespace twozerofoureight
                     l.BackColor = Color.Gray;
                     break;
                 case 2:
-                    l.BackColor = Color.DarkGray;
+                    l.BackColor = Color.LightGray;
                     break;
                 case 4:
                     l.BackColor = Color.Orange;
                     break;
                 case 8:
-                    l.BackColor = Color.Red;
+                    l.BackColor = Color.Tomato;
+                    break;
+                case 16:
+                    l.BackColor = Color.CadetBlue;
+                    break;
+                case 32:
+                    l.BackColor = Color.MediumTurquoise;
+                    break;
+                case 64:
+                    l.BackColor = Color.LightSkyBlue;
+                    break;
+                case 128:
+                    l.BackColor = Color.DarkCyan;
+                    break;
+                case 256:
+                    l.BackColor = Color.PaleVioletRed;
+                    break;
+                case 512:
+                    l.BackColor = Color.LightPink;
+                    break;
+                case 1024:
+                    l.BackColor = Color.LightCoral;
                     break;
                 default:
-                    l.BackColor = Color.Green;
+                    l.BackColor = Color.Gold;
                     break;
             }
         }
@@ -77,6 +123,25 @@ namespace twozerofoureight
             UpdateTile(lbl33,board[3, 3]);
         }
 
+        private void PreviewKeys(object sender,PreviewKeyDownEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Down:
+                    controller.ActionPerformed(TwoZeroFourEightController.DOWN);
+                    break;
+                case Keys.Up:
+                    controller.ActionPerformed(TwoZeroFourEightController.UP);
+                    break;
+                case Keys.Right:
+                    controller.ActionPerformed(TwoZeroFourEightController.RIGHT);
+                    break;
+                case Keys.Left:
+                    controller.ActionPerformed(TwoZeroFourEightController.LEFT);
+                    break;
+            }
+        }
+
         private void btnLeft_Click(object sender, EventArgs e)
         {
             controller.ActionPerformed(TwoZeroFourEightController.LEFT);
@@ -96,6 +161,31 @@ namespace twozerofoureight
         {
             controller.ActionPerformed(TwoZeroFourEightController.DOWN);
         }
+        
 
+        private void btnRight_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            controller.ActionPerformed(TwoZeroFourEightController.RIGHT);
+        }
+
+        private void btnUp_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            controller.ActionPerformed(TwoZeroFourEightController.UP);
+        }
+
+        private void btnLeft_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            controller.ActionPerformed(TwoZeroFourEightController.LEFT);
+        }
+
+        private void btnDown_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            controller.ActionPerformed(TwoZeroFourEightController.DOWN);
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
